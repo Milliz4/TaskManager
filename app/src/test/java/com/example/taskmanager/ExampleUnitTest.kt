@@ -10,7 +10,7 @@ class TaskManagerTest {
 
     @Before
     fun setUp() {
-        manager = TaskManager()   // свежий объект перед каждым тестом
+        manager = TaskManager()
     }
 
     @Test
@@ -44,5 +44,32 @@ class TaskManagerTest {
     @Test
     fun render_emptyList_returnsPlaceholder() {
         assertEquals("Список пуст", manager.render())
+    }
+
+    @Test fun updateChangesTask() {
+        val m = TaskManager()
+        m.add("старое", false)
+        assertTrue(m.update(0, "новое", true))
+        assertEquals("новое", m.get(0)?.name)
+        assertTrue(m.get(0)!!.important)
+    }
+
+    @Test fun updateWithWrongIndexReturnsFalse() {
+        assertFalse(TaskManager().update(5, "текст", false))
+    }
+
+    @Test fun updateWithBlankNameReturnsFalse() {
+        val m = TaskManager()
+        m.add("задача", false)
+        assertFalse(m.update(0, "   ", false))
+    }
+
+    @Test fun removeAtDeletesTask() {
+        val m = TaskManager()
+        m.add("первая", false)
+        m.add("вторая", false)
+        assertTrue(m.removeAt(0))
+        assertEquals(1, m.count())
+        assertEquals("вторая", m.get(0)?.name)
     }
 }

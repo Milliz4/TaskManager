@@ -11,10 +11,9 @@ class TaskManager {
         return true
     }
 
-    // @return true — задача с таким номером удалена, false — номера нет
     fun remove(index: Int): Boolean {
         if (index < 1 || index > tasks.size) return false
-        tasks.removeAt(index - 1)   // пользователь вводит 1, 2, 3 — а список с нуля
+        tasks.removeAt(index - 1)
         return true
     }
 
@@ -24,6 +23,7 @@ class TaskManager {
 
     fun all(): List<Task> = tasks.toList()
     fun count(): Int = tasks.size
+    fun importantCount(): Int = tasks.count { it.important }
 
     fun render(): String {
         if (tasks.isEmpty()) return "Список пуст"
@@ -35,8 +35,22 @@ class TaskManager {
             append("\nВсего задач: ${tasks.size}")
         }
     }
+    /** Задача по её позиции в списке. null, если позиции нет. */
+    fun get(index: Int): Task? = tasks.getOrNull(index)
 
-    fun removeByName(name: String): Boolean {
-        return tasks.removeAll { it.name.equals(name.trim(), ignoreCase = true) }
+    /** Изменение задачи по позиции. false — если позиции нет или имя пустое. */
+    fun update(index: Int, name: String, important: Boolean): Boolean {
+        if (index !in tasks.indices) return false
+        val trimmed = name.trim()
+        if (trimmed.isEmpty()) return false
+        tasks[index] = Task(trimmed, important)
+        return true
+    }
+
+    /** Удаление по позиции. */
+    fun removeAt(index: Int): Boolean {
+        if (index !in tasks.indices) return false
+        tasks.removeAt(index)
+        return true
     }
 }
