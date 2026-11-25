@@ -10,10 +10,10 @@ android {
 
     defaultConfig {
         applicationId = "com.example.taskmanager"
-        minSdk = 24
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

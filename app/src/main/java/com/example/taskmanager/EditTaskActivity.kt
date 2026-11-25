@@ -81,9 +81,9 @@ class EditTaskActivity : AppCompatActivity() {
         save.setOnClickListener {
             val name = input.text.toString()
             val ok = if (editPosition >= 0) {
-                TaskRepository.manager.update(editPosition, name, important.isChecked)
+                TaskRepository.update(editPosition, name, important.isChecked)   // ← было TaskRepository.manager.update
             } else {
-                TaskRepository.manager.add(name, important.isChecked)
+                TaskRepository.add(name, important.isChecked)                    // ← было TaskRepository.manager.add
             }
 
             if (ok) {
